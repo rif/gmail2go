@@ -15,6 +15,7 @@ Usage
 
 rif@grace:~$ gmail2go -help
 Usage of gmail2go:
+  -color=false: use terminal output colors
   -config="$HOME/.gmail2gorc": the user account file
   -set="": adds/updates/deletes to user:password to the accounts file (leave password empty to delete)
 
@@ -29,7 +30,7 @@ Examples
 
 - add a google apps account
 
-  gmail2go -set test@domain.ro:password
+gmail2go -set test@domain.ro:password
 
 - run it every 5 minutes with sound notification
 

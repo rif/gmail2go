@@ -17,6 +17,7 @@ import (
 var (
 	config      = flag.String("config", path.Join(os.Getenv("HOME"), ".gmail2gorc"), "the user accounts file")
 	set         = flag.String("set", "", "adds/updates/deletes user:password to the accounts file (leave password empty to delete)")
+	color       = flag.Bool("color", false, "use terminal output colors")
 	accountsMap = make(map[string]string)
 )
 
@@ -65,21 +66,27 @@ func main() {
 		}
 	}
 
+	yellow, green, red := "", "", ""
+	if *color {
+		yellow, green, red = "\033[1;33m", "\033[0;32m", "\033[0:31m"
+	}
+
 	foundAtLeastOne := false
 	for user, pass := range accountsMap {
-		fmt.Println("Account: ", user)
+		fmt.Println(yellow+"Account: ", user)
 		mails, err := rss.Read("https://mail.google.com/mail/feed/atom", user, pass)
 		if err != nil {
 			log.Fatal(err)
 		}
 		for _, m := range mails {
-			fmt.Println("\t", m.Title)
+			fmt.Println("\t"+red, m.Title)
 			foundAtLeastOne = true
 		}
 		if len(mails) == 0 {
-			fmt.Println("\tNo unread email.")
+			fmt.Println("\t" + green + "No unread email.")
 		}
 	}
+	fmt.Println("\033[0m")
 	if foundAtLeastOne {
 		os.Exit(0)
 	}
