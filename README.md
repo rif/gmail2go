@@ -24,7 +24,14 @@ gmail2go -set user:changed_secret - to change password to an account
 
 gmail2go -set user: - to delete an account
 
-Example: run it every 5 minutes with sound notification
+Examples
+--------
+
+- add a google apps account
+
+  gmail2go -set test@domain.ro:password
+
+- run it every 5 minutes with sound notification
 
 watch -n 600 "gmail2go && play -q /usr/share/sounds/gnome/default/alerts/drip.ogg"
 
