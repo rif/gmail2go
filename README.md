@@ -36,10 +36,6 @@ gmail2go -set test@domain.ro:password
 
 watch -n 600 "gmail2go && play -q /usr/share/sounds/gnome/default/alerts/drip.ogg"
 
-API docs
---------
-
-- [passwd](http://go.pkgdoc.org/github.com/rif/gmail2go/passwd)
-- [rss](http://go.pkgdoc.org/github.com/rif/gmail2go/rss)
+API docs [here](http://go.pkgdoc.org/github.com/rif/gmail2go).
 
 Continous integration: [![Build Status](https://goci.herokuapp.com/project/image/github.com/rif/gmail2go "Continous integration")](http://goci.me/project/github.com/rif/gmail2go)

@@ -1,3 +1,4 @@
+// Encrypter/decrypter for accounts and password file
 package passwd
 
 import (
