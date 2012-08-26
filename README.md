@@ -3,7 +3,7 @@ gmail2go
 
 Simple gmail multiple accounts cli mail checker.
 
-The passwords are kept in an encrypted configuration file
+Uses atom feed to get the unread emails. The user/passwords are kept in an encrypted configuration file.
 
 Install
 -------
