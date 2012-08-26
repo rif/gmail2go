@@ -66,9 +66,9 @@ func main() {
 		}
 	}
 
-	yellow, green, red := "", "", ""
+	yellow, green, red, reset := "", "", "", ""
 	if *color {
-		yellow, green, red = "\033[1;33m", "\033[0;32m", "\033[0:31m"
+		yellow, green, red, reset = "\033[1;33m", "\033[0;32m", "\033[0:31m", "\033[0m"
 	}
 
 	foundAtLeastOne := false
@@ -86,7 +86,7 @@ func main() {
 			fmt.Println("\t" + green + "No unread email.")
 		}
 	}
-	fmt.Println("\033[0m")
+	fmt.Println(reset)
 	if foundAtLeastOne {
 		os.Exit(0)
 	}
