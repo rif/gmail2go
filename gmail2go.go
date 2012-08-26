@@ -10,14 +10,16 @@ import (
 	"github.com/rif/gmail2go/rss"
 	"log"
 	"os"
+	"os/exec"
 	"path"
 	"strings"
 )
 
 var (
 	config      = flag.String("config", path.Join(os.Getenv("HOME"), ".gmail2gorc"), "the user accounts file")
-	set         = flag.String("set", "", "adds/updates/deletes user:password to the accounts file (leave password empty to delete)")
+	account     = flag.String("account", "", "adds/updates/deletes user:password to the accounts file (leave password empty to delete)")
 	color       = flag.Bool("color", false, "use terminal output colors")
+	notify      = flag.Bool("notify", false, "send libnotify message")
 	accountsMap = make(map[string]string)
 )
 
@@ -36,14 +38,14 @@ func main() {
 			}
 		}
 	}
-	if *set != "" {
+	if *account != "" {
 		fin, err = os.Create(*config)
 		if err != nil {
 			log.Fatal("Cannot open account file: ", err)
 		}
 		defer fin.Close()
 		w := bufio.NewWriter(fin)
-		up := strings.SplitN(*set, ":", 2)
+		up := strings.SplitN(*account, ":", 2)
 		if len(up) != 2 {
 			log.Fatal("Incorrect set string use user:pass")
 		}
@@ -88,6 +90,14 @@ func main() {
 	}
 	fmt.Println(reset)
 	if foundAtLeastOne {
+		if *notify {
+			cmd := exec.Command("/usr/bin/notify-send",
+				"-i",
+				"/usr/share/notify-osd/icons/gnome/scalable/status/notification-message-email.svg",
+				"gmail2go",
+				"You have unread mail!")
+			cmd.Run()
+		}
 		os.Exit(0)
 	}
 	os.Exit(1)

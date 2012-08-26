@@ -1,7 +1,7 @@
 gmail2go
 ========
 
-Simple gmail multiple accounts cli mail checker.
+Simple gmail multiple accounts CLI mail checker.
 
 Uses atom feed to get the unread emails. The user/passwords are kept in an encrypted configuration file.
 
@@ -17,24 +17,30 @@ rif@grace:~$ gmail2go -help
 Usage of gmail2go:
   -color=false: use terminal output colors
   -config="$HOME/.gmail2gorc": the user account file
-  -set="": adds/updates/deletes to user:password to the accounts file (leave password empty to delete)
+  -account="": adds/updates/deletes to user:password to the accounts
+  file (leave password empty to delete)
+  -notify=false: send libnotify message
 
-gmail2go -set user:secret - to create an account
+gmail2go -account user:secret - to create an account
 
-gmail2go -set user:changed_secret - to change password to an account
+gmail2go -account user:changed_secret - to change password to an account
 
-gmail2go -set user: - to delete an account
+gmail2go -account user: - to delete an account
 
 Examples
 --------
 
 - add a google apps account
 
-gmail2go -set test@domain.ro:password
+gmail2go -account test@domain.ro:password
 
-- run it every 5 minutes with sound notification
+- use terminal colors and libnotify messages
 
-watch -n 600 "gmail2go && play -q /usr/share/sounds/gnome/default/alerts/drip.ogg"
+gmail2go -color -notify
+
+- run it every 5 minutes with sound notification and libnotify message
+
+watch -n 600 "gmail2go -notify && play -q /usr/share/sounds/gnome/default/alerts/drip.ogg"
 
 API docs [here](http://go.pkgdoc.org/github.com/rif/gmail2go).
 
