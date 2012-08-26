@@ -1,7 +1,9 @@
 gmail2go
 ========
 
-Simple gmail multiple account cli mail checker
+Simple gmail multiple accounts cli mail checker.
+
+The passwords are kept in an encrypted configuration file
 
 Install
 -------
@@ -13,12 +15,12 @@ Usage
 
 rif@grace:~$ gmail2go -help
 Usage of gmail2go:
-  -accounts-file="$HOME/.gmail2gorc": the user account file
+  -config="$HOME/.gmail2gorc": the user account file
   -set="": adds/updates/deletes to user:password to the accounts file (leave password empty to delete)
 
 gmail2go -set user:secret - to create an account
 
-gmail2go -set user:changed_secret - to update an account
+gmail2go -set user:changed_secret - to change password to an account
 
 gmail2go -set user: - to delete an account
 

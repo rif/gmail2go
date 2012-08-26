@@ -15,14 +15,14 @@ import (
 )
 
 var (
-	accountsFile = flag.String("accounts-file", path.Join(os.Getenv("HOME"), ".gmail2gorc"), "the user accounts file")
-	set          = flag.String("set", "", "adds/updates/deletes user:password to the accounts file (leave password empty to delete)")
-	accountsMap  = make(map[string]string)
+	config      = flag.String("config", path.Join(os.Getenv("HOME"), ".gmail2gorc"), "the user accounts file")
+	set         = flag.String("set", "", "adds/updates/deletes user:password to the accounts file (leave password empty to delete)")
+	accountsMap = make(map[string]string)
 )
 
 func main() {
 	flag.Parse()
-	fin, err := os.Open(*accountsFile)
+	fin, err := os.Open(*config)
 	if err == nil {
 		r := bufio.NewReader(fin)
 		res, err := passwd.Decrypt(r, make([]byte, 16), make([]byte, 16))
@@ -36,7 +36,7 @@ func main() {
 		}
 	}
 	if *set != "" {
-		fin, err = os.Create(*accountsFile)
+		fin, err = os.Create(*config)
 		if err != nil {
 			log.Fatal("Cannot open account file: ", err)
 		}
