@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	accountFile = flag.String("account-file", "test.gmail2go", "the user account filee to be used")
+	accountFile = flag.String("account-file", ".gmail2gorc", "the user account filee to be used")
 	set         = flag.String("set", "", "adds/updates/deletes au user:password to the accounts file")
 	accountsMap = make(map[string]string)
 )
