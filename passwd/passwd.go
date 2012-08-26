@@ -7,6 +7,7 @@ import (
 	"io"
 )
 
+// Encrypts data to destrination writer
 func Encrypt(dst io.Writer, data *bytes.Buffer, key, iv []byte) (err error) {
 	c, err := aes.NewCipher(key)
 	if err != nil {
@@ -18,6 +19,7 @@ func Encrypt(dst io.Writer, data *bytes.Buffer, key, iv []byte) (err error) {
 	return
 }
 
+// Returns decrypted data from src reader
 func Decrypt(src io.Reader, key, iv []byte) (data *bytes.Buffer, err error) {
 	c, err := aes.NewCipher(key)
 	if err != nil {

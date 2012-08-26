@@ -20,10 +20,12 @@ type Entry struct {
 	Author   Author `xml:"author"`
 }
 
+// Parses modification time string to time structure
 func (e *Entry) ModifiedTime() (time.Time, error) {
 	return time.Parse(time.RFC3339, e.Modified)
 }
 
+// Returns a list of Entry objects by parsing the url atom feed
 func Read(url, user, pass string) ([]*Entry, error) {
 	client := new(http.Client)
 
