@@ -37,7 +37,7 @@ Examples
 
     gmail2go -color -notify
 
-- run it every 5 minutes with sound notification and libnotify message:
+- run it every 10 minutes with sound notification and libnotify message:
 
     watch -n 600 "gmail2go -notify && play -q /usr/share/sounds/gnome/default/alerts/drip.ogg"
 
