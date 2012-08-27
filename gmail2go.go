@@ -73,7 +73,7 @@ func main() {
 		yellow, green, red, reset = "\033[1;33m", "\033[0;32m", "\033[0:31m", "\033[0m"
 	}
 
-	foundAtLeastOne := false
+	emailCount := 0
 	for user, pass := range accountsMap {
 		fmt.Println(yellow+"Account: ", user)
 		mails, err := rss.Read("https://mail.google.com/mail/feed/atom", user, pass)
@@ -84,20 +84,24 @@ func main() {
 		}
 		for _, m := range mails {
 			fmt.Println("\t"+red, m.Title)
-			foundAtLeastOne = true
+			emailCount++
 		}
 		if len(mails) == 0 {
 			fmt.Println("\t" + green + "No unread email.")
 		}
 	}
 	fmt.Println(reset)
-	if foundAtLeastOne {
+	if emailCount > 0 {
 		if *notify {
+			message := "You have 1 unread mail!"
+			if emailCount > 1 {
+				message = fmt.Sprintf("You have %v unread mails!", emailCount)
+			}
 			cmd := exec.Command("/usr/bin/notify-send",
 				"-i",
 				"/usr/share/notify-osd/icons/gnome/scalable/status/notification-message-email.svg",
 				"gmail2go",
-				"You have unread mail!")
+				message)
 			cmd.Run()
 		}
 		os.Exit(0)
