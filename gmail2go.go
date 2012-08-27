@@ -80,6 +80,7 @@ func main() {
 		if err != nil {
 			fmt.Println(reset)
 			log.Print("Error: ", err)
+			continue
 		}
 		for _, m := range mails {
 			fmt.Println("\t"+red, m.Title)
