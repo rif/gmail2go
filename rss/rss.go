@@ -3,6 +3,8 @@ package rss
 
 import (
 	"encoding/xml"
+	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -35,6 +37,9 @@ func Read(url, user, pass string) ([]*Entry, error) {
 
 	if err != nil {
 		return nil, err
+	}
+	if resp.StatusCode != 200 {
+		return nil, errors.New(fmt.Sprintf("Received bad status code: %v", resp.StatusCode))
 	}
 	defer resp.Body.Close()
 

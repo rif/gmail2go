@@ -78,6 +78,7 @@ func main() {
 		fmt.Println(yellow+"Account: ", user)
 		mails, err := rss.Read("https://mail.google.com/mail/feed/atom", user, pass)
 		if err != nil {
+			fmt.Println(reset)
 			log.Fatal(err)
 		}
 		for _, m := range mails {
