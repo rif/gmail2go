@@ -27,6 +27,7 @@ func main() {
 	flag.Parse()
 	fin, err := os.Open(*config)
 	if err == nil {
+		// if the config file was opened decrypt it and unmarshal accounts map
 		r := bufio.NewReader(fin)
 		res, err := passwd.Decrypt(r, make([]byte, 16), make([]byte, 16))
 		if err != nil {
@@ -38,6 +39,7 @@ func main() {
 			}
 		}
 	}
+	// if account parameter has a value operate the changes on the map and write the encrypted json 
 	if *account != "" {
 		fin, err = os.Create(*config)
 		if err != nil {
@@ -68,12 +70,14 @@ func main() {
 		}
 	}
 
+	// prepare the colors for display
 	yellow, green, red, reset := "", "", "", ""
 	if *color {
 		yellow, green, red, reset = "\033[1;33m", "\033[0;32m", "\033[0:31m", "\033[0m"
 	}
 
 	emailCount := 0
+	// iterate over accounts
 	for user, pass := range accountsMap {
 		fmt.Println(yellow+"Account: ", user)
 		mails, err := rss.Read("https://mail.google.com/mail/feed/atom", user, pass)
@@ -82,6 +86,7 @@ func main() {
 			log.Print("Error: ", err)
 			continue
 		}
+		// iterate over mails
 		for _, m := range mails {
 			fmt.Println("\t"+red, m.Title)
 			emailCount++
@@ -91,6 +96,7 @@ func main() {
 		}
 	}
 	fmt.Println(reset)
+	// show the notification
 	if emailCount > 0 {
 		if *notify {
 			message := "You have 1 unread mail!"
