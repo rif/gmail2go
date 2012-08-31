@@ -88,7 +88,7 @@ func main() {
 		}
 		// iterate over mails
 		for _, m := range mails {
-			fmt.Println("\t"+red, m.Title)
+			fmt.Println("\t"+red, m.Author, ": ", m.Title, "\n\t\t", m.Summary)
 			emailCount++
 		}
 		if len(mails) == 0 {
