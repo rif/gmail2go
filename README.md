@@ -44,7 +44,7 @@ Examples
 
 - run it every 10 minutes with sound notification and libnotify message:
 
-    watch -n 600 "gmail2go -notify && play -q /usr/share/sounds/gnome/default/alerts/drip.ogg"
+    watch -cn 600 "gmail2go -color -notify && play -q /usr/share/sounds/gnome/default/alerts/drip.ogg"
 
 API docs [here](http://go.pkgdoc.org/github.com/rif/gmail2go).
 
