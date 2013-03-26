@@ -39,7 +39,7 @@ func main() {
 			}
 		}
 	}
-	// if account parameter has a value operate the changes on the map and write the encrypted json 
+	// if account parameter has a value operate the changes on the map and write the encrypted json
 	if *account != "" {
 		fin, err = os.Create(*config)
 		if err != nil {
@@ -76,7 +76,7 @@ func main() {
 		yellow, green, red, reset = "\033[1;33m", "\033[0;32m", "\033[0:31m", "\033[0m"
 	}
 
-	emailCount := 0
+	var emailCount []string
 	// iterate over accounts
 	for user, pass := range accountsMap {
 		fmt.Println(yellow+"Account: ", user)
@@ -89,7 +89,9 @@ func main() {
 		// iterate over mails
 		for _, m := range mails {
 			fmt.Println("\t"+red, m.Author, ": ", m.Title, "\n\t\t", m.Summary)
-			emailCount++
+			if !isPressent(emailCount, user) {
+				emailCount = append(emailCount, user)
+			}
 		}
 		if len(mails) == 0 {
 			fmt.Println("\t" + green + "No unread email.")
@@ -97,11 +99,11 @@ func main() {
 	}
 	fmt.Println(reset)
 	// show the notification
-	if emailCount > 0 {
+	if len(emailCount) > 0 {
 		if *notify {
-			message := "You have 1 unread mail!"
-			if emailCount > 1 {
-				message = fmt.Sprintf("You have %v unread mails!", emailCount)
+			message := fmt.Sprintf("You have 1 unread mail in %v!", emailCount[0])
+			if len(emailCount) > 1 {
+				message = fmt.Sprintf("You have %v unread mails, in %v!", len(emailCount), strings.Join(emailCount, ", "))
 			}
 			cmd := exec.Command("/usr/bin/notify-send",
 				"-i",
@@ -113,4 +115,13 @@ func main() {
 		os.Exit(0)
 	}
 	os.Exit(1)
+}
+
+func isPressent(slice []string, searched string) bool {
+	for _, s := range slice {
+		if s == searched {
+			return true
+		}
+	}
+	return false
 }
