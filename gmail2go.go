@@ -76,7 +76,7 @@ func main() {
 		yellow, green, red, reset = "\033[1;33m", "\033[0;32m", "\033[0:31m", "\033[0m"
 	}
 
-	var emailCount []string
+	emailCountMap := make(map[string]int)
 	// iterate over accounts
 	for user, pass := range accountsMap {
 		fmt.Println(yellow+"Account: ", user)
@@ -89,26 +89,28 @@ func main() {
 		// iterate over mails
 		for _, m := range mails {
 			fmt.Println("\t"+red, m.Author, ": ", m.Title, "\n\t\t", m.Summary)
-			if !isPressent(emailCount, user) {
-				emailCount = append(emailCount, user)
-			}
+			emailCountMap[user] += 1
 		}
 		if len(mails) == 0 {
 			fmt.Println("\t" + green + "No unread email.")
 		}
 	}
 	fmt.Println(reset)
+
 	// show the notification
-	if len(emailCount) > 0 {
+	if len(emailCountMap) > 0 {
 		if *notify {
-			message := fmt.Sprintf("You have 1 unread mail in %v!", emailCount[0])
-			if len(emailCount) > 1 {
-				message = fmt.Sprintf("You have %v unread mails, in %v!", len(emailCount), strings.Join(emailCount, ", "))
+			message := ""
+			for k, v := range emailCountMap {
+				message += fmt.Sprintf("%v(%v), ", k, v)
 			}
+			message = strings.TrimRight(message, ", ")
 			cmd := exec.Command("/usr/bin/notify-send",
 				"-i",
 				"/usr/share/notify-osd/icons/gnome/scalable/status/notification-message-email.svg",
+				"-a",
 				"gmail2go",
+				"You have new mails:",
 				message)
 			cmd.Run()
 		}
@@ -117,11 +119,18 @@ func main() {
 	os.Exit(1)
 }
 
-func isPressent(slice []string, searched string) bool {
-	for _, s := range slice {
-		if s == searched {
+func isPressent(mp map[string]int, searched string) bool {
+	for k := range mp {
+		if k == searched {
 			return true
 		}
 	}
 	return false
+}
+
+func getKeyList(mp map[string]int) (keys []string) {
+	for k := range mp {
+		keys = append(keys, k)
+	}
+	return
 }
