@@ -87,7 +87,7 @@ func main() {
 		fmt.Print(yellow + user)
 		index++
 	}
-	fmt.Println("\n")
+	fmt.Println(reset + "\n")
 	// show unread mails
 	for user, pass := range accountsMap {
 		mails, err := rss.Read("https://mail.google.com/mail/feed/atom", user, pass)
