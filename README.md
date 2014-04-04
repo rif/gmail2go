@@ -4,7 +4,7 @@ gmail2go
 Simple gmail multiple accounts CLI mail checker.
 
 Uses atom feed to get the unread emails. The user/passwords are kept
-in an encrypted configuration file. Developed and tested on Ubuntu 12.04
+in an encrypted configuration file. Developed and tested on linux.
 
 Install
 -------
