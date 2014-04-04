@@ -13,7 +13,8 @@ go get github.com/rif/gmail2go
 
 OR
 
-[Download the static binary for ubuntu](https://github.com/downloads/rif/gmail2go/gmail2go_ubuntu12.04_amd64_static.tar.xz)
+
+[Download the static binaries](http://gobuild.io/download/github.com/rif/gmail2go)
 
 Usage
 -----
