@@ -6,13 +6,14 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/rif/gmail2go/passwd"
-	"github.com/rif/gmail2go/rss"
 	"log"
 	"os"
 	"os/exec"
 	"path"
 	"strings"
+
+	"github.com/rif/gmail2go/passwd"
+	"github.com/rif/gmail2go/rss"
 )
 
 var (
@@ -77,9 +78,18 @@ func main() {
 	}
 
 	emailCountMap := make(map[string]int)
-	// iterate over accounts
+	// show accounts
+	index := 0
+	for user, _ := range accountsMap {
+		if index > 0 {
+			fmt.Print(green + " | ")
+		}
+		fmt.Print(yellow + user)
+		index++
+	}
+	fmt.Println("\n")
+	// show unread mails
 	for user, pass := range accountsMap {
-		fmt.Println(yellow+"Account: ", user)
 		mails, err := rss.Read("https://mail.google.com/mail/feed/atom", user, pass)
 		if err != nil {
 			fmt.Println(reset)
@@ -88,14 +98,10 @@ func main() {
 		}
 		// iterate over mails
 		for _, m := range mails {
-			fmt.Println("\t"+red, m.Author, ": ", m.Title, "\n\t\t", m.Summary)
+			fmt.Println(yellow+"["+user+"] "+red, m.Author, ": "+reset, m.Title, "\n\t\t", m.Summary)
 			emailCountMap[user] += 1
 		}
-		if len(mails) == 0 {
-			fmt.Println("\t" + green + "No unread email.")
-		}
 	}
-	fmt.Println(reset)
 
 	// show the notification
 	if len(emailCountMap) > 0 {
