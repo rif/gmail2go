@@ -93,7 +93,7 @@ func main() {
 		mails, err := rss.Read("https://mail.google.com/mail/feed/atom", user, pass)
 		if err != nil {
 			fmt.Println(reset)
-			log.Print("Error: ", err)
+			log.Print(user + " error: ", err)
 			continue
 		}
 		// iterate over mails
