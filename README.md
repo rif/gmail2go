@@ -47,4 +47,3 @@ Examples
 
     watch -cn 600 "gmail2go -color -notify && ogg123 -q /usr/share/sounds/gnome/default/alerts/drip.ogg"
 
-Continous integration: [![Build Status](https://goci.herokuapp.com/project/image/github.com/rif/gmail2go "Continous integration")](http://goci.me/project/github.com/rif/gmail2go)
