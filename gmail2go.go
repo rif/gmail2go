@@ -77,7 +77,7 @@ func main() {
 		yellow, green, red, reset = "\033[1;33m", "\033[0;32m", "\033[0:31m", "\033[0m"
 	}
 
-	emailCountMap := make(map[string]int)
+	emailCountMap := make(map[string][]string)
 	// show accounts
 	index := 0
 	for user, _ := range accountsMap {
@@ -93,13 +93,13 @@ func main() {
 		mails, err := rss.Read("https://mail.google.com/mail/feed/atom", user, pass)
 		if err != nil {
 			fmt.Println(reset)
-			log.Print(user + " error: ", err)
+			log.Print(user+" error: ", err)
 			continue
 		}
 		// iterate over mails
 		for _, m := range mails {
 			fmt.Println(yellow+"["+user+"] "+red, m.Author, ": "+reset, m.Title, "\n\t\t", m.Summary)
-			emailCountMap[user] += 1
+			emailCountMap[user] = append(emailCountMap[user], m.Title)
 		}
 	}
 
@@ -108,7 +108,12 @@ func main() {
 		if *notify {
 			message := ""
 			for k, v := range emailCountMap {
-				message += fmt.Sprintf("%v(%v), ", k, v)
+				// pute entire title if only one message
+				info := fmt.Sprintf("%d", len(v))
+				if len(v) == 1 {
+					info = v[0]
+				}
+				message += fmt.Sprintf("%v(%v), ", k, info)
 			}
 			message = strings.TrimRight(message, ", ")
 			cmd := exec.Command("/usr/bin/notify-send",
